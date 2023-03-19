@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
-import { useState } from "react";
+import { useState } from 'react'
 
 import {
   Box,
@@ -14,68 +14,66 @@ import {
   Wrap,
   WrapItem,
   useToast,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react'
 
-import { AiFillGithub } from "react-icons/ai";
-import { NextSeo } from "next-seo";
+import { AiFillGithub } from 'react-icons/ai'
+import { NextSeo } from 'next-seo'
 
-import prompts from "helpers/prompts";
+import prompts from 'helpers/prompts'
 
 const Home = () => {
-  const [prompt, setPrompt] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
+  const [prompt, setPrompt] = useState<string>('')
+  const [loading, setLoading] = useState<boolean>(false)
 
-  const [images, setImages] = useState<string[]>([
-    "https://generatepotter.com/default.png",
-  ]);
+  const [images, setImages] = useState<string[]>(['https://i.postimg.cc/tTqbRc6R/AI-generated-image.png'])
 
-  const toast = useToast();
+  const toast = useToast()
 
   const generate = async () => {
-    setLoading(true);
+    setLoading(true)
 
     if (prompt.length === 0) {
       toast({
-        title: "Error",
-        description: "Enter a prompt first!",
-        status: "error",
-      });
-      setLoading(false);
-      return;
+        title: 'Error',
+        description: 'Enter a prompt first!',
+        status: 'error',
+      })
+      setLoading(false)
+      return
     }
 
     // hit leap in our nextjs api route
-    const response = await fetch("/api/generate", {
-      method: "POST",
+    const response = await fetch('/api/generate', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({ prompt }),
-    });
-    const image = await response.json();
-    console.log(image);
+    })
+    const image = await response.json()
+    console.log(image)
     if (image.error) {
-      window.alert("Error: " + image.error + " " + image.message);
-      setLoading(false);
-      return;
+      window.alert('Error: ' + image.error + ' ' + image.message)
+      setLoading(false)
+      return
     }
     // set images array, to switch the default image
-    const uris = image.images.map((image: { uri: string }) => image.uri);
-    setImages(uris);
-    setLoading(false);
-  };
+    const uris = image.images.map((image: { uri: string }) => image.uri)
+    setImages(uris)
+    setLoading(false)
+  }
 
   return (
     <>
       <NextSeo
-        title="Generate Potter"
-        description="Generate Potter is a web app that uses the LeapML API to generate images of Harry Potter. It's built with Next.js, Chakra UI, and Leap AI."
+        title="Generate Cinematic Avtar"
+        description="Generate a Sci-fi or a cinematic avatar with just a click"
       />
       <VStack
         minH="100vh"
         w="100vw"
         spacing={4}
-        bg="#6D051E"
+        bg="#06283D"
         px={4}
         paddingBottom={4}
       >
@@ -86,23 +84,22 @@ const Home = () => {
               md: 32,
             }}
             color="gray.200"
-            fontFamily="harryfont"
           >
-            Generate Potter.
+            Generate Sci-Fi avatar.
           </Heading>
           <Text
             color="gray.300"
             fontSize="lg"
-            w={{ base: "full", md: "lg" }}
+            w={{ base: 'full', md: 'lg' }}
             textAlign="center"
             fontFamily="monospace"
           >
-            Enter a prompt like "@harry as a cat" to generate an image.
+            Enter a prompt like "@me as a cat" to generate an image.
           </Text>
         </VStack>
 
         <Input
-          w={{ base: "full", md: "30rem" }}
+          w={{ base: 'full', md: '30rem' }}
           py={4}
           color="gray.100"
           focusBorderColor="gray.100"
@@ -110,8 +107,8 @@ const Home = () => {
           onChange={(e) => setPrompt(e.target.value)}
           value={prompt}
           onKeyPress={(e) => {
-            if (e.key === "Enter") {
-              generate();
+            if (e.key === 'Enter') {
+              generate()
             }
           }}
           fontFamily="monospace"
@@ -119,11 +116,11 @@ const Home = () => {
         />
 
         <Button
-          w={{ base: "full", md: "30rem" }}
+          w={{ base: 'full', md: '30rem' }}
           _hover={loading ? {} : { opacity: 0.8 }}
-          _active={loading ? {} : { transform: "scale(0.98)", opacity: 0.7 }}
+          _active={loading ? {} : { transform: 'scale(0.98)', opacity: 0.7 }}
           transitionDuration="200ms"
-          bg="#C99D25"
+          bg="#7286D3"
           color="white"
           p={2}
           fontFamily="monospace"
@@ -136,7 +133,7 @@ const Home = () => {
           Generate
         </Button>
 
-        <Box w={{ base: "full", md: "30rem" }} h="auto">
+        <Box w={{ base: 'full', md: '30rem' }} h="auto">
           {images.map((image) => (
             <Image
               key={image}
@@ -144,7 +141,7 @@ const Home = () => {
               alt="Harry Potter"
               rounded="lg"
               w="full"
-              h={{ base: "3/4", md: "20rem" }}
+              h={{ base: '1/4', md: '25rem' }}
               objectFit="cover"
               transitionDuration="200ms"
               opacity={loading ? 0.3 : 1}
@@ -152,18 +149,18 @@ const Home = () => {
           ))}
         </Box>
 
-        <Wrap w={{ base: "full", md: "30rem" }} justify="center">
+        <Wrap w={{ base: 'full', md: '30rem' }} justify="center">
           {prompts.map((prompt) => (
             <WrapItem key={prompt.label}>
               <HStack
                 w="fit"
                 _hover={{ opacity: 0.8 }}
-                _active={{ transform: "scale(0.98)", opacity: 0.7 }}
+                _active={{ transform: 'scale(0.98)', opacity: 0.7 }}
                 transitionDuration="200ms"
-                fontWeight={"bold"}
+                fontWeight={'bold'}
                 color="white"
                 p={2}
-                border={"1px solid #fff"}
+                border={'1px solid #fff'}
                 rounded="lg"
                 fontSize="xs"
                 key={prompt.label}
@@ -181,24 +178,24 @@ const Home = () => {
           py={2}
           rounded="md"
           _hover={{ opacity: 0.8 }}
-          _active={{ transform: "scale(0.99)", opacity: 0.7 }}
+          _active={{ transform: 'scale(0.99)', opacity: 0.7 }}
           cursor="pointer"
           transitionDuration="200ms"
           pos="absolute"
           bottom={4}
           right={4}
           onClick={() =>
-            window.open("https://github.com/aleemrehmtulla/leap-template")
+            window.open('https://github.com/vikingwarior')
           }
         >
           <AiFillGithub color="black" />
-          <Text fontWeight={"bold"} color={"#1c1c1c"}>
-            Train Your Own Character
+          <Text fontWeight={'bold'} color={'#1c1c1c'}>
+            Follow me on GitHub
           </Text>
         </HStack>
       </VStack>
     </>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home
